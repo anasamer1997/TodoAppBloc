@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tasks_app/bloc/bloc_export.dart';
+import 'package:flutter_tasks_app/screens/tabsScreen.dart';
 import 'package:flutter_tasks_app/service/app_router.dart';
 import 'package:flutter_tasks_app/service/app_theme.dart';
-import 'screens/tasks_screen.dart';
 
-void main() {
+import 'screens/pendingTaskScreen.dart';
+
+void main() async {
   // ignore: deprecated_member_use
-  BlocOverrides.runZoned(() => runApp(MyApp(
-        appRouter: AppRouter(),
-      )));
-  // runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build(
+      storageDirectory: await getApplicationDocumentsDirectory());
+  runApp(MyApp(
+    appRouter: AppRouter(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -35,7 +39,7 @@ class MyApp extends StatelessWidget {
             theme: state.switchValue
                 ? AppThemes.appThemeData[AppTheme.darkTheme]
                 : AppThemes.appThemeData[AppTheme.lightTheme],
-            home: const TasksScreen(),
+            home:  TabsScreen(),
             onGenerateRoute: appRouter.onGeneratRoute,
           );
         },

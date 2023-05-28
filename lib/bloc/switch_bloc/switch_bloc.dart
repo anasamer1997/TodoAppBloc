@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_tasks_app/bloc/bloc_export.dart';
 
@@ -22,7 +21,6 @@ class SwitchBloc extends HydratedBloc<SwitchEvent, SwitchState> {
 
   @override
   Map<String, dynamic>? toJson(SwitchState state) {
-    // TODO: implement toJson
-    throw UnimplementedError();
+    return state.toMap();
   }
 }

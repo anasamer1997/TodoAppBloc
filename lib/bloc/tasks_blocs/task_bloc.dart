@@ -17,26 +17,43 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     final state = this.state;
     emit(
       TaskState(
-          taskList: List.from(state.taskList)..add(event.task),
-          removedtasks: state.removedtasks),
+        pendingTasks: List.from(state.pendingTasks)..add(event.task),
+        removedtasks: state.removedtasks,
+        completedTasks: state.completedTasks,
+        favoritTasks: state.favoritTasks,
+      ),
     );
   }
 
   void _UpdateTask(UpdateTaskEvent event, Emitter<TaskState> emit) {
     final state = this.state;
     final task = event.task;
-    final int index = state.taskList.indexOf(event.task);
-    List<Task> allTask = List.from(state.taskList)..remove(task);
+
+    List<Task> pendingTasks = state.pendingTasks;
+    List<Task> completedTasks = state.completedTasks;
+    // List<Task> favoriteTasks = state.favoritTasks;
     task.isDone == false
-        ? allTask.insert(index, task.copyWith(isDone: true))
-        : allTask.insert(index, task.copyWith(isDone: false));
-    emit(TaskState(taskList: allTask, removedtasks: state.removedtasks));
+        ? {
+            pendingTasks = List.from(pendingTasks)..remove(task),
+            completedTasks = List.from(completedTasks)
+              ..insert(0, task.copyWith(isDone: true)),
+          }
+        : {
+            completedTasks = List.from(completedTasks)..remove(task),
+            pendingTasks = List.from(pendingTasks)
+              ..insert(0, task.copyWith(isDone: false)),
+          };
+    emit(TaskState(
+        pendingTasks: pendingTasks,
+        completedTasks: completedTasks,
+        favoritTasks: state.favoritTasks,
+        removedtasks: state.removedtasks));
   }
 
   void _RemoveTask(RemoveTaskEvent event, Emitter<TaskState> emit) {
     final state = this.state;
     emit(TaskState(
-        taskList: List.from(state.taskList)..remove(event.task),
+        pendingTasks: List.from(state.pendingTasks)..remove(event.task),
         removedtasks: List.from(state.removedtasks)
           ..add(event.task.copyWith(isDeleted: true))));
   }
@@ -45,8 +62,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     final state = this.state;
     emit(
       TaskState(
-          taskList:
-              state.taskList, // List.from(state.taskList)..remove(event.task),
+          pendingTasks: state.pendingTasks,
+          completedTasks: state.completedTasks,
+          favoritTasks: state.favoritTasks, // List.from(state.taskList)..remove(event.task),
           removedtasks: List.from(state.removedtasks)..remove(event.task)),
     );
   }
