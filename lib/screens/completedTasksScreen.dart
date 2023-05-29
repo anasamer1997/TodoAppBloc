@@ -16,11 +16,11 @@ class CompletedTasksScreen extends StatelessWidget {
             Center(
               child: Chip(
                 label: Text(
-                  '${state.pendingTasks.length} Tasks',
+                  '${state.completedTasks.length} Tasks',
                 ),
               ),
             ),
-            TaskList(allTasks: state.pendingTasks),
+            TaskList(allTasks: state.completedTasks),
           ],
         );
       },

@@ -53,6 +53,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   void _RemoveTask(RemoveTaskEvent event, Emitter<TaskState> emit) {
     final state = this.state;
     emit(TaskState(
+        favoritTasks: List.from(state.favoritTasks)..remove(event.task),
+        completedTasks: List.from(state.completedTasks)..remove(event.task),
         pendingTasks: List.from(state.pendingTasks)..remove(event.task),
         removedtasks: List.from(state.removedtasks)
           ..add(event.task.copyWith(isDeleted: true))));
@@ -64,18 +66,17 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       TaskState(
           pendingTasks: state.pendingTasks,
           completedTasks: state.completedTasks,
-          favoritTasks: state.favoritTasks, // List.from(state.taskList)..remove(event.task),
+          favoritTasks: state
+              .favoritTasks, // List.from(state.taskList)..remove(event.task),
           removedtasks: List.from(state.removedtasks)..remove(event.task)),
     );
   }
 
-  // @override
-  // TaskState? fromJson(Map<String, dynamic> json) {
-  //   return TaskState.fromMap(json);
-  // }
+  TaskState? fromJson(Map<String, dynamic> json) {
+    return TaskState.fromMap(json);
+  }
 
-  // @override
-  // Map<String, dynamic>? toJson(TaskState state) {
-  //   return state.toMap();
-  // }
+  Map<String, dynamic>? toJson(TaskState state) {
+    return state.toMap();
+  }
 }

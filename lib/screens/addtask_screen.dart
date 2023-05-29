@@ -14,7 +14,7 @@ class AddTask extends StatefulWidget {
 
 class _AddTaskState extends State<AddTask> {
   TextEditingController textEditingController = TextEditingController();
-
+  TextEditingController descriptionEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +31,23 @@ class _AddTaskState extends State<AddTask> {
           TextField(
             controller: textEditingController,
             autofocus: true,
-            decoration: const InputDecoration(border: OutlineInputBorder()),
+            decoration: const InputDecoration(
+              hintText: 'Title',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          TextField(
+            autofocus: true,
+            controller: descriptionEditingController,
+            minLines: 3,
+            maxLines: 5,
+            decoration: const InputDecoration(
+              hintText: 'Description',
+              border: OutlineInputBorder(),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -41,7 +57,8 @@ class _AddTaskState extends State<AddTask> {
                     if (textEditingController.text != "") {
                       var task = Task(
                           id: GUIDGen.generate(),
-                          title: textEditingController.text);
+                          title: textEditingController.text,
+                          description: descriptionEditingController.text);
                       context.read<TaskBloc>().add(AddTaskEvent(task: task));
                       Navigator.pop(context);
                     }

@@ -18,9 +18,26 @@ class TaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+    return Row(
+      children: [
+        Icon(Icons.star_outline),
+        Text(
+          task.title,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            decoration:
+                task.isDone! ? TextDecoration.lineThrough : TextDecoration.none,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/*ListTile(
       title: Text(
         task.title,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(
           decoration:
               task.isDone! ? TextDecoration.lineThrough : TextDecoration.none,
@@ -36,6 +53,4 @@ class TaskTile extends StatelessWidget {
             : null,
       ),
       onLongPress: () => _removeOrDelete(context, task),
-    );
-  }
-}
+    );*/

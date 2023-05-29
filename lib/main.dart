@@ -5,8 +5,6 @@ import 'package:flutter_tasks_app/screens/tabsScreen.dart';
 import 'package:flutter_tasks_app/service/app_router.dart';
 import 'package:flutter_tasks_app/service/app_theme.dart';
 
-import 'screens/pendingTaskScreen.dart';
-
 void main() async {
   // ignore: deprecated_member_use
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +37,7 @@ class MyApp extends StatelessWidget {
             theme: state.switchValue
                 ? AppThemes.appThemeData[AppTheme.darkTheme]
                 : AppThemes.appThemeData[AppTheme.lightTheme],
-            home:  TabsScreen(),
+            home: TabsScreen(),
             onGenerateRoute: appRouter.onGeneratRoute,
           );
         },
