@@ -19,16 +19,36 @@ class TaskTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Icon(Icons.star_outline),
-        Text(
-          task.title,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            decoration:
-                task.isDone! ? TextDecoration.lineThrough : TextDecoration.none,
+        Expanded(
+          child: Row(
+            children: [
+              const Icon(Icons.star_outline),
+              Expanded(
+                child: Text(
+                  task.title,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    decoration: task.isDone!
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
+        Checkbox(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          value: task.isDone,
+          onChanged: task.isDeleted! == false
+              ? (value) {
+                  context.read<TaskBloc>().add(UpdateTaskEvent(task: task));
+                }
+              : null,
+        )
       ],
     );
   }
