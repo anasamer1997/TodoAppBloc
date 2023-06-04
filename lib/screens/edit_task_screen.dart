@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tasks_app/bloc/bloc_export.dart';
 import 'package:flutter_tasks_app/models/taskModel.dart';
-import 'package:flutter_tasks_app/service/service.dart';
 
-class AddTask extends StatelessWidget {
-  AddTask({
+class EditTaskScreen extends StatelessWidget {
+  final Task oldtask;
+  const EditTaskScreen({
     Key? key,
+    required this.oldtask,
   }) : super(key: key);
-
-  TextEditingController textEditingController = TextEditingController();
-  TextEditingController descriptionEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController textEditingController =
+        TextEditingController(text: oldtask.title);
+    TextEditingController descriptionEditingController =
+        TextEditingController(text: oldtask.description);
     return Container(
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           const Text(
-            "Add Task",
+            "Edit Task",
             style: TextStyle(fontSize: 24),
           ),
           const SizedBox(
@@ -51,21 +53,25 @@ class AddTask extends StatelessWidget {
               TextButton(
                   onPressed: () {
                     if (textEditingController.text != "") {
-                      var task = Task(
-                          id: GUIDGen.generate(),
+                      var editTask = Task(
+                          id: oldtask.id,
+                          isDone: false,
+                          isFavourite: oldtask.isFavourite,
                           title: textEditingController.text,
                           description: descriptionEditingController.text,
                           date: DateTime.now().toString());
-                      context.read<TaskBloc>().add(AddTaskEvent(task: task));
+                      context
+                          .read<TaskBloc>()
+                          .add(EditTaskEvent( oldTask:oldtask, newTask: editTask));
                       Navigator.pop(context);
                     }
                   },
-                  child: const Text("Add")),
+                  child: const Text("save")),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text("delete")),
+                  child: const Text("cancel")),
             ],
           )
         ],

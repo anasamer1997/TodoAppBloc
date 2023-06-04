@@ -4,29 +4,30 @@ part of 'task_bloc.dart';
 class TaskState extends Equatable {
   final List<Task> pendingTasks;
   final List<Task> completedTasks;
-  final List<Task> favoritTasks;
+  final List<Task> favouriteTasks;
   final List<Task> removedtasks;
   const TaskState({
     this.removedtasks = const <Task>[],
     this.completedTasks = const <Task>[],
-    this.favoritTasks = const <Task>[],
+    this.favouriteTasks = const <Task>[],
     this.pendingTasks = const <Task>[],
   });
 
   @override
   List<Object> get props =>
-      [pendingTasks, removedtasks, completedTasks, favoritTasks];
+      [pendingTasks, removedtasks, completedTasks, favouriteTasks];
 
   TaskState copyWith({
     List<Task>? pendingTasks,
+     List<Task>? completedTasks,
+    List<Task>? favouriteTasks,
     List<Task>? removedtasks,
-    List<Task>? completedTasks,
-    List<Task>? favoritTasks,
+   
   }) {
     return TaskState(
       pendingTasks: pendingTasks ?? this.pendingTasks,
       completedTasks: completedTasks ?? this.completedTasks,
-      favoritTasks: favoritTasks ?? this.favoritTasks,
+      favouriteTasks: favouriteTasks ?? this.favouriteTasks,
       removedtasks: removedtasks ?? this.removedtasks,
     );
   }
@@ -35,7 +36,7 @@ class TaskState extends Equatable {
     return <String, dynamic>{
       'pendingTasks': pendingTasks.map((x) => x.toMap()).toList(),
       'completedTasks': pendingTasks.map((x) => x.toMap()).toList(),
-      'favoritTasks': pendingTasks.map((x) => x.toMap()).toList(),
+      'favouriteTasks': pendingTasks.map((x) => x.toMap()).toList(),
       'removedtasks': pendingTasks.map((x) => x.toMap()).toList(),
     };
   }
@@ -52,8 +53,8 @@ class TaskState extends Equatable {
             (x) => Task.fromMap(x as Map<String, dynamic>),
           ),
         ),
-        favoritTasks: List<Task>.from(
-          (map['favoritTasks'] as List<int>).map<Task>(
+        favouriteTasks: List<Task>.from(
+          (map['favouriteTasks'] as List<int>).map<Task>(
             (x) => Task.fromMap(x as Map<String, dynamic>),
           ),
         ),

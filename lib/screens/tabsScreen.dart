@@ -30,7 +30,7 @@ class _TabsScreenState extends State<TabsScreen> {
         child: Container(
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: const AddTask(),
+          child: AddTask(),
         ),
       ),
     );
